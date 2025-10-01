@@ -33,7 +33,9 @@ public class DoctorServiceImpl implements DoctorService {
         incomingDoctor.setName(doctor.getName());
         incomingDoctor.setSpeciality(doctor.getSpeciality());
         incomingDoctor.setExperience(doctor.getExperience());
+        incomingDoctor.setConsultationFee(doctor.getConsultationFee());
         Doctor save = doctorRepository.save(incomingDoctor);
+
         System.out.println(save);
         return save;
     }

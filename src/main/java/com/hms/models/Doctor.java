@@ -18,21 +18,43 @@ public class Doctor {
 
     private String Speciality;
 
+    private Double consultationFee;
+
     private int Experience;
 
     @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     List<Appointment> appointments;
 
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", Speciality='" + Speciality + '\'' +
+                ", consultationFee=" + consultationFee +
+                ", Experience=" + Experience +
+                ", appointments=" + appointments +
+                '}';
+    }
 
     public Doctor() {
     }
 
-    public Doctor(Long id, String name, String speciality, int experience, List<Appointment> appointments) {
+    public Doctor(Long id, String name, String speciality, Double consultationFee, int experience, List<Appointment> appointments) {
         this.id = id;
         this.name = name;
         Speciality = speciality;
+        this.consultationFee = consultationFee;
         Experience = experience;
         this.appointments = appointments;
+    }
+
+    public Double getConsultationFee() {
+        return consultationFee;
+    }
+
+    public void setConsultationFee(Double consultationFee) {
+        this.consultationFee = consultationFee;
     }
 
     public List<Appointment> getAppointments() {

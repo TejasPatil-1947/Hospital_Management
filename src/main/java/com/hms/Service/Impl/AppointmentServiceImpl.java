@@ -4,9 +4,11 @@ import com.hms.Exception.DoctorNotFoundException;
 import com.hms.Exception.PatientNotFoundException;
 import com.hms.Service.AppointmentService;
 import com.hms.models.Appointment;
+import com.hms.models.Bill;
 import com.hms.models.Doctor;
 import com.hms.models.Patient;
 import com.hms.repository.AppointmentRepository;
+import com.hms.repository.BillRepository;
 import com.hms.repository.DoctorRepository;
 import com.hms.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     private DoctorRepository doctorRepository;
 
 
+    @Autowired
+    private BillRepository billRepository;
 
     @Override
     public Appointment createAppointment(Long patientId, Long doctorId, String date) {
@@ -35,13 +39,26 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() -> new PatientNotFoundException("Patient not found with id: " + patientId));
 
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new DoctorNotFoundException("Doctor not found with id: " + doctorId));
-
+        doctor.setConsultationFee(800.0);
+        doctorRepository.save(doctor);
         Appointment ap = new Appointment();
         ap.setDate(date);
         ap.setDoctor(doctor);
         ap.setPatient(patient);
 
-        return  appointmentRepository.save(ap);
+
+        Bill bill = new Bill();
+        bill.setId(ap.getId());
+        bill.setPatient(patient);
+        bill.setAppointment(ap);
+        bill.setBillingDate(LocalDateTime.now());
+        bill.setDescription("Consultation Fee");
+        bill.setStatus("Pending");
+        bill.setAmount(doctor.getConsultationFee());
+        Appointment save = appointmentRepository.save(ap);
+        billRepository.save(bill);
+        return save;
+
     }
 
     @Override

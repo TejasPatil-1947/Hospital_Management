@@ -1,6 +1,7 @@
 package com.hms.Dtos;
 
 import com.hms.models.Appointment;
+import com.hms.models.Bill;
 import com.hms.models.Doctor;
 import com.hms.models.Patient;
 
@@ -16,6 +17,7 @@ public class DtoMapper {
         dto.setName(doctor.getName());
         dto.setSpeciality(doctor.getSpeciality());
         dto.setExperience(doctor.getExperience());
+        dto.setConsultationFee(doctor.getConsultationFee());
         return dto;
     }
 
@@ -26,6 +28,27 @@ public class DtoMapper {
         dto.setDate(appointment.getDate());
         dto.setDoctor(toDoctorDTO(appointment.getDoctor()));
         return dto;
+    }
+
+    public static BillDTO toBillDTO(Bill bill){
+        if(bill == null)  return null;
+        BillDTO billDTO = new BillDTO();
+        billDTO.setId(bill.getId());
+//        billDTO.setAppointmentId(bill.getAppointment() != null ?);
+        if(bill.getAppointment() != null){
+            billDTO.setAppointmentId(bill.getAppointment().getId());
+        }
+//        billDTO.setPatientId(bill.getPatient().getId());
+        if(bill.getPatient() != null){
+            billDTO.setPatientId(bill.getPatient().getId());
+        }
+        System.out.println(bill.getPatient().getId());
+        billDTO.setDescription(bill.getDescription());
+        billDTO.setBillingDate(bill.getBillingDate());
+        billDTO.setAmount(bill.getAmount());
+        billDTO.setStatus(bill.getStatus());
+        System.out.println(billDTO);
+        return billDTO;
     }
 
     public static PatientDTO toPatientDTO(Patient patient) {

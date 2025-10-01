@@ -1,5 +1,6 @@
 package com.hms.controllers;
 
+import com.hms.Exception.BillNotFoundException;
 import com.hms.Exception.DoctorNotFoundException;
 import com.hms.Exception.PatientNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,14 @@ public class GlobalExceptionHandler {
         error.put("Status",HttpStatus.NOT_FOUND.value());
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
 
+    }
+
+    @ExceptionHandler(BillNotFoundException.class)
+    public ResponseEntity<Map<String,Object>> handleBillNotFoundException(BillNotFoundException ex){
+        Map<String, Object> err = new HashMap<>();
+        err.put("TimeStamp",LocalDate.now());
+        err.put("Description",ex.getMessage());
+        err.put("Status",HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(err,HttpStatus.NOT_FOUND);
     }
 }

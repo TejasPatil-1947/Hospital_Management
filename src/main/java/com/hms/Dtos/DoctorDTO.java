@@ -6,6 +6,15 @@ public class DoctorDTO {
     private String speciality;
     private int experience;
 
+    private Double consultationFee;
+
+    public Double getConsultationFee() {
+        return consultationFee;
+    }
+
+    public void setConsultationFee(Double consultationFee) {
+        this.consultationFee = consultationFee;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

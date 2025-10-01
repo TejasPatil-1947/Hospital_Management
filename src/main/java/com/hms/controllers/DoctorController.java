@@ -19,28 +19,27 @@ public class DoctorController{
     private DoctorService doctorService;
 
     @GetMapping
-    public ResponseEntity<List<Doctor>> getAllDoctors(){
-        return new ResponseEntity<>(doctorService.getAllDoctors(), HttpStatus.OK);
+    public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
+        List<Doctor> allDoctors = doctorService.getAllDoctors();
+        List<DoctorDTO> list = allDoctors.stream().map(DtoMapper::toDoctorDTO).toList();
+        return new ResponseEntity<>(list,HttpStatus.OK);
     }
-//    @GetMapping
-//    public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
-//        List<Doctor> allDoctors = doctorService.getAllDoctors();
-//        List<DoctorDTO> list = allDoctors.stream().map(DtoMapper::toDoctorDTO).toList();
-//        return new ResponseEntity<>(list,HttpStatus.OK);
-//    }
     @PostMapping
-    public ResponseEntity<Doctor> saveDoctor(@RequestBody Doctor doctor){
-        return new ResponseEntity<>(doctorService.saveDoctor(doctor),HttpStatus.CREATED);
+    public ResponseEntity<DoctorDTO> saveDoctor(@RequestBody Doctor doctor){
+        Doctor savedDoctor = doctorService.saveDoctor(doctor);
+        return new ResponseEntity<>(DtoMapper.toDoctorDTO(savedDoctor),HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Doctor> getDoctorById(@PathVariable Long id){
-        return new ResponseEntity<>(doctorService.getDoctorById(id),HttpStatus.OK);
+    public ResponseEntity<DoctorDTO> getDoctorById(@PathVariable Long id){
+        Doctor doctorById = doctorService.getDoctorById(id);
+        return new ResponseEntity<>(DtoMapper.toDoctorDTO(doctorById),HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id,@RequestBody Doctor doctor){
-        return new ResponseEntity<>(doctorService.updateDoctor(id,doctor),HttpStatus.OK);
+    public ResponseEntity<DoctorDTO> updateDoctor(@PathVariable Long id,@RequestBody Doctor doctor){
+        Doctor updateDoctor = doctorService.updateDoctor(id, doctor);
+        return new ResponseEntity<>(DtoMapper.toDoctorDTO(updateDoctor),HttpStatus.OK);
     }
 
 }

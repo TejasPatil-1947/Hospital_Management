@@ -1,16 +1,9 @@
-package com.hms.models;
-
-import jakarta.persistence.*;
-import lombok.*;
+package com.hms.Dtos;
 
 import java.time.LocalDateTime;
 
-@Entity
+public class BillDTO {
 
-public class Bill {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Double amount;
@@ -21,40 +14,34 @@ public class Bill {
 
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name="patient_id")
-    private Patient patient;
+    private Long patientId;
 
-    @ManyToOne
-    @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
+    private Long appointmentId;
 
-
-    public Bill(){
-
+    public BillDTO() {
     }
 
     @Override
     public String toString() {
-        return "Bill{" +
+        return "BillDTO{" +
                 "id=" + id +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +
                 ", billingDate=" + billingDate +
                 ", status='" + status + '\'' +
-                ", patient=" + patient +
-                ", appointment=" + appointment +
+                ", patientId=" + patientId +
+                ", appointmentId=" + appointmentId +
                 '}';
     }
 
-    public Bill(Long id, Double amount, String description, LocalDateTime billingDate, String status, Patient patient, Appointment appointment) {
+    public BillDTO(Long id, Double amount, String description, LocalDateTime billingDate, String status, Long patientId, Long appointmentId) {
         this.id = id;
         this.amount = amount;
         this.description = description;
         this.billingDate = billingDate;
         this.status = status;
-        this.patient = patient;
-        this.appointment = appointment;
+        this.patientId = patientId;
+        this.appointmentId = appointmentId;
     }
 
     public Long getId() {
@@ -97,19 +84,19 @@ public class Bill {
         this.status = status;
     }
 
-    public Patient getPatient() {
-        return patient;
+    public Long getPatientId() {
+        return patientId;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
+    public Long getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
+    public void setAppointmentId(Long appointmentId) {
+        this.appointmentId = appointmentId;
     }
 }
